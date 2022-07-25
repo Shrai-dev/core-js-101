@@ -34,8 +34,7 @@ function getRectangleArea(width, height) {
  *   0    => 0
  */
 function getCircleCircumference(radius) {
-  const PI = 3.141592653589793;
-  return 2 * PI * radius;
+  return 2 * Math.PI * radius;
 }
 
 /**
@@ -205,7 +204,7 @@ function roundToPowerOfTen(/* num, pow */) {
  *   17 => true
  */
 function isPrime(n) {
-  if ((n > 2 && n < 1) || n === 1 || n % 2 === 0) {
+  if ((n > 2 && n < 1) || n === 1 || (n % 2 === 0 && n > 2)) {
     return false;
   }
   // eslint-disable-next-line no-plusplus
