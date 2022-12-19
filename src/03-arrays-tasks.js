@@ -34,19 +34,15 @@ function findElement(arr, value) {
  *    2 => [ 1, 3 ]
  *    5 => [ 1, 3, 5, 7, 9 ]
  */
-function generateOdds(/* len */) {
-  throw new Error('Not implemented');
-  // const result = [].map((elem, index) => {});
-  // // eslint-disable-next-line no-plusplus
-  // for (let i = 0; i < len; i++) {
-  //   // eslint-disable-next-line no-plusplus
-  //   for (let j = 0; j < 1000; j++) {
-  //     if (j % 2 !== 0) {
-  //       result.push(j);
-  //     }
-  //   }
-  // }
-  // return result;
+function generateOdds(len) {
+  const result = [];
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < len * 2; i++) {
+    if (i % 2 !== 0) {
+      result.push(i);
+    }
+  }
+  return result;
 }
 
 /**
@@ -438,11 +434,15 @@ function toStringList(arr) {
  *    ]
  */
 function sortCitiesArray(arr) {
-  // const sortedArr = arr.sort((a, b) => a.country.localeCompare(b.country));
-  return arr.sort(
-    // eslint-disable-next-line comma-dangle
-    (a, b) => a.city.localeCompare(b.city) && a.country.localeCompare(b.country)
-  );
+  const sortedArr = arr
+    .sort((a, b) => a.country.localeCompare(b.country))
+    // eslint-disable-next-line array-callback-return, consistent-return
+    .sort((a, b) => {
+      if (a.country === b.country) {
+        return a.city.localeCompare(b.city);
+      }
+    });
+  return sortedArr;
 }
 
 /**
