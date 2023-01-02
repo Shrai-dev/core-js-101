@@ -180,8 +180,25 @@ function isInsideCircle(circle, point) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+// eslint-disable-next-line consistent-return
+function findFirstSingleChar(str) {
+  const countObj = {};
+  const arr = [];
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < str.length; i++) {
+    if (countObj[str[i]]) {
+      countObj[str[i]] += 1;
+    } else {
+      countObj[str[i]] = 1;
+    }
+  }
+  // eslint-disable-next-line no-restricted-syntax, guard-for-in
+  for (const key in countObj) {
+    if (countObj[key] === 1) {
+      arr.push(key);
+    }
+  }
+  return arr[0];
 }
 
 /**
@@ -206,8 +223,32 @@ function findFirstSingleChar(/* str */) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+// eslint-disable-next-line consistent-return
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  if (isStartIncluded && isEndIncluded) {
+    if (a < b) {
+      return `[${a}, ${b}]`;
+    }
+    return `[${b}, ${a}]`;
+  }
+  if (!isStartIncluded && isEndIncluded) {
+    if (a < b) {
+      return `(${a}, ${b}]`;
+    }
+    return `(${b}, ${a}]`;
+  }
+  if (isStartIncluded && !isEndIncluded) {
+    if (a < b) {
+      return `[${a}, ${b})`;
+    }
+    return `[${b}, ${a})`;
+  }
+  if (!isStartIncluded && !isEndIncluded) {
+    if (a < b) {
+      return `(${a}, ${b})`;
+    }
+    return `(${b}, ${a})`;
+  }
 }
 
 /**
@@ -314,8 +355,25 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const bracketsConfig = [
+    ['[', ']'],
+    ['(', ')'],
+    ['{', '}'],
+    ['<', '>'],
+  ];
+  const brackets = bracketsConfig.map((el) => el.join(''));
+
+  // eslint-disable-next-line space-in-parens
+  for (let i = 0; i < brackets.length; ) {
+    if (str.includes(brackets[i])) {
+      // eslint-disable-next-line no-param-reassign
+      str = str.replace(brackets[i], '');
+      i = 0;
+      // eslint-disable-next-line no-plusplus
+    } else i++;
+  }
+  return str === '';
 }
 
 /**
@@ -376,8 +434,26 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const matrix = [];
+  const rows1 = m1.length;
+  const cols1 = m1[0].length;
+  const rows2 = m2.length;
+  const cols2 = m2[0].length;
+  if (cols1 !== rows2) return false;
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < rows1; i++) matrix[i] = [];
+  // eslint-disable-next-line no-plusplus
+  for (let k = 0; k < cols2; k++) {
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < rows1; i++) {
+      let t = 0;
+      // eslint-disable-next-line no-plusplus
+      for (let j = 0; j < rows2; j++) t += m1[i][j] * m2[j][k];
+      matrix[i][k] = t;
+    }
+  }
+  return matrix;
 }
 
 /**
