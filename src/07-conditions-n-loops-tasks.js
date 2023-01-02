@@ -132,8 +132,20 @@ function isTriangle(a, b, c) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  if (
+    // eslint-disable-next-line operator-linebreak
+    rect2.width < rect1.left ||
+    // eslint-disable-next-line operator-linebreak
+    rect2.left > rect1.width ||
+    // eslint-disable-next-line operator-linebreak
+    rect2.top > rect1.height ||
+    rect2.height < rect1.top
+  ) {
+    return false;
+  }
+  return true;
+  // throw new Error('Not implemented');
 }
 
 /**
@@ -304,8 +316,24 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const ccnArr = ccn
+    .toString()
+    .split('')
+    .map((elem) => Number(elem));
+  let sum = 0;
+  const even = ccnArr.length % 2;
+
+  for (let i = 0; i < ccnArr.length; i += 1) {
+    if (i % 2 !== even) {
+      sum += ccnArr[i];
+    } else if (ccnArr[i] > 4) {
+      sum += 2 * ccnArr[i] - 9;
+    } else {
+      sum += 2 * ccnArr[i];
+    }
+  }
+  return sum % 10 === 0;
 }
 
 /**
@@ -396,8 +424,8 @@ function isBracketsBalanced(str) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 /**
@@ -412,8 +440,13 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  if (!pathes.every((path) => path[0] === '/')) return '';
+  const pathArray = pathes.map((path) => path.split('/'));
+  const result = pathArray[0]
+    .filter((item, i) => pathArray.every((path) => path[i] === item))
+    .join('/');
+  return `${result}/`;
 }
 
 /**
