@@ -201,8 +201,8 @@ function getTail(arr, n) {
  *    +'20,21,22,23,24\n'
  *    +'30,31,32,33,34'
  */
-function toCsvText(/* arr */) {
-  throw new Error('Not implemented');
+function toCsvText(arr) {
+  return arr.join('\n');
 }
 
 /**
@@ -234,8 +234,13 @@ function toArrayOfSquares(arr) {
  *   [ 0, 0, 0, 0, 0]         => [ 0, 0, 0, 0, 0]
  *   [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] => [ 1, 3, 6, 10, 15, 21, 28, 36, 45, 55 ]
  */
-function getMovingSum(/* arr */) {
-  throw new Error('Not implemented');
+function getMovingSum(arr) {
+  const sum = [];
+  arr.reduce((acc, val) => {
+    sum.push(acc + val);
+    return sum[sum.length - 1];
+  }, 0);
+  return sum;
 }
 
 /**
@@ -268,8 +273,8 @@ function getSecondItems(arr) {
  *  [ 'a', 'b', 'c', null ] => [ 'a', 'b','b', 'c','c','c',  null,null,null,null ]
  *  [ 1,2,3,4,5 ] => [ 1, 2,2, 3,3,3, 4,4,4,4, 5,5,5,5,5 ]
  */
-function propagateItemsByPositionIndex(/* arr */) {
-  throw new Error('Not implemented');
+function propagateItemsByPositionIndex(arr) {
+  return arr.map((elem, idx) => [...Array(idx + 1)].fill(elem)).flat();
 }
 
 /**
@@ -285,8 +290,16 @@ function propagateItemsByPositionIndex(/* arr */) {
  *   [ 1,2,3,4,5,6,7,8,9,10 ] => [ 10, 9, 8 ]
  *   [ 10, 10, 10, 10 ] => [ 10, 10, 10 ]
  */
-function get3TopItems(/* arr */) {
-  throw new Error('Not implemented');
+function get3TopItems(arr) {
+  const sortedArr = arr.sort((a, b) => b - a);
+  if (!arr.length) {
+    return arr;
+  }
+  if (arr.length < 3) {
+    return sortedArr;
+  }
+  const result = sortedArr.slice(0, 3);
+  return result;
 }
 
 /**
@@ -468,8 +481,10 @@ function sortCitiesArray(arr) {
  *           [0,0,0,1,0],
  *           [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  throw new Error('Not implemented');
+function getIdentityMatrix(n) {
+  return Array(n)
+    .fill(Array(n).fill())
+    .map((el, i) => el.map((item, j) => (i === j ? 1 : 0)));
 }
 
 /**
@@ -539,8 +554,19 @@ function distinct(arr) {
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
+function group(array, keySelector, valueSelector) {
+  return array.reduce((res, elem) => {
+    const country = keySelector(elem);
+    const city = valueSelector(elem);
+    if (res.has(country)) {
+      const cities = res.get(country);
+      cities.push(city);
+      res.set(country, cities);
+    } else {
+      res.set(country, [city]);
+    }
+    return res;
+  }, new Map());
 }
 
 /**
@@ -556,8 +582,9 @@ function group(/* array, keySelector, valueSelector */) {
  *   [[1, 2], [3, 4], [5, 6]], (x) => x     =>   [ 1, 2, 3, 4, 5, 6 ]
  *   ['one','two','three'], x=>x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
-function selectMany(/* arr, childrenSelector */) {
-  throw new Error('Not implemented');
+function selectMany(arr, childrenSelector) {
+  const result = arr.map((elem) => childrenSelector(elem)).flat();
+  return result;
 }
 
 /**
@@ -572,8 +599,13 @@ function selectMany(/* arr, childrenSelector */) {
  *   ['one','two','three'], [2]       => 'three'  (arr[2])
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
-function getElementByIndexes(/* arr, indexes */) {
-  throw new Error('Not implemented');
+function getElementByIndexes(arr, indexes) {
+  let res = [...arr];
+  indexes.map((el) => {
+    res = res[el];
+    return res;
+  });
+  return res;
 }
 
 /**
@@ -594,8 +626,21 @@ function getElementByIndexes(/* arr, indexes */) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8 ]   =>  [ 5, 6, 7, 8, 1, 2, 3, 4 ]
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  const resArr = [];
+  const head = arr.slice(0, Math.floor(arr.length / 2));
+  const tail = arr.slice(Math.round(arr.length / 2));
+  let middle;
+  if (arr.length === 1 || !arr.length) {
+    return arr;
+  }
+  if (arr.length % 2 !== 0) {
+    middle = arr[Math.floor(arr.length / 2)];
+    resArr.push(tail, middle, head);
+  } else {
+    resArr.push(arr.slice(arr.length / 2), arr.slice(0, arr.length / 2));
+  }
+  return resArr.flat();
 }
 
 module.exports = {
